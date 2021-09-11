@@ -1,0 +1,33 @@
+const { DataTypes } = require('sequelize');
+
+module.exports = model;
+
+function model(sequelize) {
+    const attributes = {
+        user_id:{
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true // Automatically gets converted to SERIAL for postgres
+          },
+        role: { type: DataTypes.STRING, allowNull: false },
+        tel: { type: DataTypes.STRING, allowNull: false },
+        email: { type: DataTypes.STRING, allowNull: false },
+        username: { type: DataTypes.STRING, allowNull: false },
+        hash: { type: DataTypes.STRING, allowNull: false }
+    };
+
+    const options = {
+        defaultScope: {
+            // exclude hash by default
+            attributes: { exclude: ['hash'] }
+        },
+        scopes: {
+            // include hash with this scope
+            withHash: { attributes: {}, }
+        }
+    };
+
+    const User = sequelize.define('user_account', attributes, options);
+    
+    return User;
+}
