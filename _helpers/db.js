@@ -18,10 +18,12 @@ async function initialize() {
     // init models and add them to the exported db object
     db.User = require('../users/user.model')(sequelize);
     db.UserDetail = require('../userdetails/userdetails.model')(sequelize);
+    db.UserImage = require('../userdetail_image/upload.model')(sequelize);
     db.Store = require('../stores/store.model')(sequelize);
     
 
     db.UserDetail.belongsTo(db.User, {foreignKey: { name: 'uid', field: 'uid', allowNull: false }});
+    db.UserImage.belongsTo(db.User, {foreignKey: { name: 'uid', field: 'uid', allowNull: false }})
     db.Store.belongsTo(db.User, { foreignKey: { name: 'uid', field: 'uid', allowNull: false  } });
 
 

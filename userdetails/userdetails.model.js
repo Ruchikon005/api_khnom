@@ -9,11 +9,10 @@ function model(sequelize) {
             primaryKey: true,
             autoIncrement: true
         },
-        firstName: { type: DataTypes.STRING,},
-        lastName: { type: DataTypes.STRING,},
-        name: {type: DataTypes.STRING},
-        type: { type: DataTypes.STRING },
-        data: { type: DataTypes.BLOB('long') },
+        firstName: { type: DataTypes.STRING,allowNull: true},
+        lastName: { type: DataTypes.STRING,allowNull: true},
+        address: { type: DataTypes.STRING,allowNull: true},
+        
     };
 
    
