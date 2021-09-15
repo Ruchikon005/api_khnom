@@ -9,8 +9,8 @@ function model(sequelize) {
             primaryKey: true,
             autoIncrement: true
         },
-        name: {type: DataTypes.STRING},
         type: { type: DataTypes.STRING },
+        image_path: { type: DataTypes.STRING },
         data: { type: DataTypes.BLOB('long') },
     };
 

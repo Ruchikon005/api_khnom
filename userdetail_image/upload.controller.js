@@ -1,22 +1,32 @@
+const express = require('express');
+const router = express.Router();
 const fs = require('fs');
 const db = require('../_helpers/db');
+const userimageServer = require('./userimage.server.js');
+
+
+
 
 exports.upload = (req, res) => {
 	const newImage = new db.UserImage({ ...req.body });
 	db.UserImage.create({
 		uid: newImage.uid,
 		type: req.file.mimetype,
-		name: req.file.originalname,
-		data: fs.readFileSync(__basedir + '/resources/static/assets/uploads/' + req.file.filename)
+		image_path: 'uploads_userimage/' + req.file.filename,
+		data: fs.createReadStream('uploads_userimage/' + req.file.filename)
 	}).then(image => {
 		try {
-			fs.writeFileSync(__basedir + '/resources/static/assets/tmp/' + image.name, image.data);
-
 			// exit node.js app
-			res.json({ 'msg': 'File uploaded successfully!','file': req.file });
+			res.json({ 'msg': 'File uploaded successfully!','file': req.file,'part': req.file.part });
 		} catch (e) {
 			console.log(e);
 			res.json({ 'err': e });
 		}
 	})
 };
+
+exports.getByUid = (req, res, next) => {
+	userimageServer.getByUid(req.params.uid)
+		.then(Image => res.json(Image))
+		.catch(next);
+}
