@@ -11,7 +11,7 @@ function model(sequelize) {
         },
         type: { type: DataTypes.STRING },
         image_path: { type: DataTypes.STRING },
-        data: { type: DataTypes.BLOB('long') },
+        // data: { type: DataTypes.BLOB('long') },
     };
 
    

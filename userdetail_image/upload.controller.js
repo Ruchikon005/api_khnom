@@ -13,7 +13,7 @@ exports.upload = (req, res) => {
 		uid: newImage.uid,
 		type: req.file.mimetype,
 		image_path: 'uploads_userimage/' + req.file.filename,
-		data: fs.createReadStream('uploads_userimage/' + req.file.filename)
+		// data: fs.createReadStream('uploads_userimage/' + req.file.filename)
 	}).then(image => {
 		try {
 			// exit node.js app

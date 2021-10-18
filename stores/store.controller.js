@@ -17,24 +17,8 @@ router.delete('/:user_id', authorize(), _delete);
 
 module.exports = router;
 
-function authenticateSchema(req, res, next) {
-    const schema = Joi.object({
-        email: Joi.string().required(),
-        password: Joi.string().required()
-    });
-    validateRequest(req, next, schema);
-}
-
-function authenticate(req, res, next) {
-    userService.authenticate(req.body)
-        .then(user => res.json(user))
-        .catch(next);
-}
-
 function createStoreSchema(req, res, next) {
     const schema = Joi.object({
-        // firstName: Joi.string().required(),
-        // lastName: Joi.string().required(),
         store_name: Joi.string().required(),
         uid: Joi.number().required(),
     });
@@ -43,7 +27,7 @@ function createStoreSchema(req, res, next) {
 
 function createStore(req, res, next) {
     storeService.create(req.body)
-        .then(() => res.json({ message: 'Registration successful' }))
+        .then(() => res.json({ message: 'Created Store successful' }))
         .catch(next);
 }
 

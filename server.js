@@ -17,6 +17,9 @@ app.use('/stores', require('./stores/store.controller'));
 app.use('/userdetails', require('./userdetails/userdetails.controller'));
 app.use('/userimages', require('./userdetail_image/upload.router'));
 app.use('/uploads_userimage', express.static('./uploads_userimage'));
+app.use('/products', require('./products/products.router'));
+app.use('/product_image', express.static('./products/product_image'));
+
 
 
 // global error handler

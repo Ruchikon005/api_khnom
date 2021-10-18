@@ -3,7 +3,6 @@ const { secret } = require('config.json');
 const db = require('_helpers/db');
 
 module.exports = authorize;
-
 function authorize() {
     return [
         // authenticate JWT token and attach decoded token to request as req.user
