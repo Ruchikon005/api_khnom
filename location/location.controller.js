@@ -3,31 +3,34 @@ const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('_middleware/validate-request');
 const authorize = require('_middleware/authorize')
-const storeService = require('./store.service');
+const locationService = require('./location.service');
 
 // routes
-router.post('/createstore', createStoreSchema, createStore);
+router.post('/addlocation', addLocationSchema, addLocation);
 router.get('/', authorize(), getAll);
 router.get('/current', authorize(), getCurrent);
-router.get('/:store_id',getByIdstore);
-router.get('/ownerfindstore/:uid', getByUid);
+router.get('/findbyitem/:product_id',getByitemid);
+router.get('/ownerfindlocation/:uid', getByuid);
 router.get('/finduserbyuid/:user_id', authorize(), getById);
+router.put('/:user_id', authorize(), updateSchema, update);
 router.delete('/:user_id', authorize(), _delete);
-router.put('/updatePrompt/:uid',updateSchema, update);
 
 module.exports = router;
 
-function createStoreSchema(req, res, next) {
+function addLocationSchema(req, res, next) {
     const schema = Joi.object({
-        store_name: Joi.string().required(),
-        uid: Joi.number().required(),
+        location_name: Joi.string().required(),
+        location_detail: Joi.string().required(),
+        lat: Joi.string().required(),
+        lng: Joi.string().required(),
+        stid: Joi.number().required(),
     });
     validateRequest(req, next, schema);
 }
 
-function createStore(req, res, next) {
-    storeService.create(req.body)
-        .then(() => res.json({ message: 'Created Store successful' }))
+function addLocation(req, res, next) {
+    locationService.create(req.body)
+        .then(() => res.json({ message: 'Add Location successful' }))
         .catch(next);
 }
 
@@ -41,15 +44,15 @@ function getCurrent(req, res, next) {
     res.json(req.user);
 }
 
-function getByIdstore(req, res, next) {
-    storeService.getByIdstore(req.params.store_id)
-        .then(store => res.json(store))
+function getByitemid(req, res, next) {
+    locationService.getByitemid(req.params.product_id)
+        .then(location => res.json(location))
         .catch(next);
 }
 
-function getByUid(req, res, next) {
-    storeService.getByUid(req.params.uid)
-        .then(store => res.json(store))
+function getByuid(req, res, next) {
+    locationService.getByuid(req.params.uid)
+        .then(location => res.json(location))
         .catch(next);
 }
 
@@ -61,14 +64,17 @@ function getById(req, res, next) {
 
 function updateSchema(req, res, next) {
     const schema = Joi.object({
-        promptpay_number: Joi.string().required(),
+        // firstName: Joi.string().empty(''),
+        // lastName: Joi.string().empty(''),
+        username: Joi.string().empty(''),
+        password: Joi.string().min(6).empty('')
     });
     validateRequest(req, next, schema);
 }
 
 function update(req, res, next) {
-    storeService.updatePrompt(req.params.uid, req.body)
-        .then(store => res.json(store))
+    userService.update(req.params.user_id, req.body)
+        .then(user => res.json(user))
         .catch(next);
 }
 

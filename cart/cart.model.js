@@ -4,13 +4,12 @@ module.exports = model;
 
 function model(sequelize) {
     const attributes = {
-        store_id: {
+        cart_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true // Automatically gets converted to SERIAL for postgres
         },
-        promptpay_number: {type: DataTypes.STRING, allowNull: true },
-        store_name: { type: DataTypes.STRING, allowNull: false },
+        item_id: { type: DataTypes.INTEGER, allowNull: false },
     };
 
     const options = {
@@ -24,7 +23,7 @@ function model(sequelize) {
         }
     };
 
-    const Store = sequelize.define('store', attributes, options);
+    const Cart = sequelize.define('cart', attributes, options);
 
-    return Store;
+    return Cart;
 }

@@ -2,21 +2,31 @@ const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 
 module.exports = {
-    getByIdstore,
-    getByUid,
+    getByitemid,
+    getByuid,
     getById,
     create,
-    updatePrompt,
+    update,
     delete: _delete
 };
 
+
+
+async function getByitemid(product_id) {
+    const stid2 = await db.Product.findAll({attributes: ['stid'],where: {product_id: product_id}});
+    const stidJson = JSON.stringify(stid2);
+    const stidParse = JSON.parse(stidJson);
+    console.log(stidParse[0].stid);
+    const data = stidParse[0].stid
+    return await getLocationStid(data);
+}
 
 async function getByIdstore(store_id) {
     return await getstore(store_id);
 }
 
-async function getByUid(uid) {
-    return await getstoreUid(uid);
+async function getByuid(uid) {
+    return await getlocationUid(uid);
 }
 
 async function getById(user_id) {
@@ -24,25 +34,8 @@ async function getById(user_id) {
 }
 
 async function create(params) {
-    // validate
-    if (await db.Store.findOne({ where: { store_name: params.store_name } })) {
-        throw 'Storename "' + params.store_name + '" is already taken';
-    }
     // save user
-    await db.Store.create(params);
-}
-
-async function updatePrompt(uid,params) {
-    const store = await getStore(uid);
-    Object.assign(store, params);
-    await store.save();
-    return store.get();
-}
-
-async function getStore(uid) {
-    const store = await db.Store.findOne({where: {uid: uid}});
-    if (!store) throw 'store not found';
-    return store;
+    await db.Location.create(params);
 }
 
 async function update(user_id, params) {
@@ -66,8 +59,6 @@ async function update(user_id, params) {
     return omitHash(user.get());
 }
 
-
-
 async function _delete(user_id) {
     const user = await getUser(user_id);
     await user.destroy();
@@ -81,10 +72,19 @@ async function getstore(store_id) {
     return store;
 }
 
-async function getstoreUid(uid) {
-    const store = await db.Store.findOne({where: { uid } });
-    if (!store) throw 'User not found';
-    return store;
+async function getlocationUid(uid) {
+    const stid = await db.Store.findAll({attributes: ['store_id'],where: {uid:uid}});
+    const stidJson = JSON.stringify(stid);
+    const stidParse = JSON.parse(stidJson);
+    console.log(stidParse[0].store_id);
+    const data = stidParse[0].store_id
+    return await getLocationStid(data);
+}
+
+async function getLocationStid(stid) {
+    const Location = await db.Location.findAll({where: {stid: stid}});
+    if (!Location) throw 'Detail not found';
+    return Location;
 }
 
 async function getUser(user_id) {

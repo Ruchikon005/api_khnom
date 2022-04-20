@@ -16,7 +16,7 @@ exports.upload = (req, res) => {
         product_detail: newProduct.product_detail,
         price: newProduct.price,
         quantity: newProduct.quantity,
-		image_path: 'products/product_image/' + req.file.filename,
+		image_path: 'product_image/' + req.file.filename,
 		data_image: fs.createReadStream('products/product_image/' + req.file.filename)
 	}).then(image => {
 		try {
@@ -31,6 +31,24 @@ exports.upload = (req, res) => {
 
 exports.getByStid = (req, res, next) => {
 	productServer.getByStid(req.params.stid)
+		.then(Product => res.json(Product))
+		.catch(next);
+}
+
+exports.getByid = (req, res, next) => {
+	productServer.getByid(req.params.id)
+		.then(Product => res.json(Product))
+		.catch(next);
+}
+
+exports.getAll = (req, res, next) => {
+	productServer.getAll()
+		.then(Product => res.json(Product))
+		.catch(next);
+}
+
+exports.getByCate= (req, res, next) => {
+	productServer.getByCate(req.params.cate)
 		.then(Product => res.json(Product))
 		.catch(next);
 }

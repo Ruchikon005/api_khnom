@@ -4,13 +4,15 @@ module.exports = model;
 
 function model(sequelize) {
     const attributes = {
-        store_id: {
+        location_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true // Automatically gets converted to SERIAL for postgres
         },
-        promptpay_number: {type: DataTypes.STRING, allowNull: true },
-        store_name: { type: DataTypes.STRING, allowNull: false },
+        location_name: { type: DataTypes.STRING, allowNull: false },
+        location_detail: { type: DataTypes.STRING, allowNull: false },
+        lat: { type: DataTypes.STRING, allowNull: false },
+        lng: { type: DataTypes.STRING, allowNull: false },
     };
 
     const options = {
@@ -24,7 +26,7 @@ function model(sequelize) {
         }
     };
 
-    const Store = sequelize.define('store', attributes, options);
+    const Location = sequelize.define('location', attributes, options);
 
-    return Store;
+    return Location;
 }

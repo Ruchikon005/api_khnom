@@ -19,6 +19,13 @@ app.use('/userimages', require('./userdetail_image/upload.router'));
 app.use('/uploads_userimage', express.static('./uploads_userimage'));
 app.use('/products', require('./products/products.router'));
 app.use('/product_image', express.static('./products/product_image'));
+app.use('/location', require('./location/location.controller'));
+app.use('/cart', require('./cart/cart.controller'));
+app.use('/payment', require('./payment/payment.controller'));
+app.use('/invoice', require('./invoice/invoicec.controller'));
+
+//promptpay Qr code
+app.use('/generateQr', require('./promptpay_qr/prompt_controller'));
 
 
 
